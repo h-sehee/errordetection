@@ -134,7 +134,7 @@ export function Exercise({
         var retval = 0;
         var selTim = Number(note.abselem.elemset[0].getAttribute("selectedTimes"));
         if (clicked) selTim++;
-        if (selTim >= 3) {
+        if (selTim > 3) {
             selTim = 0;
             selNotes.splice(selNotes.indexOf(note),1);
             selAnswers.splice(selAnswers.indexOf(note),1)
@@ -148,11 +148,11 @@ export function Exercise({
         if (selTim === 1) {
             color = "#ff6100"; //was red - ff0000, now orange - ff6100
         }
-        /* if (selTim == 2) {
-            color = "#dc267f"; //was blue - 00ff00, now magenta - dc267f
-        } */
         if (selTim === 2) {
             color = "#648fff"; //was green - 0000ff, now blue - 648fff
+        }
+        if (selTim === 3) {
+            color = "#a020f0"; //was green - 0000ff, now blue - 648fff
         }
         if (clicked) note.abselem.elemset[0].setAttribute("selectedTimes", selTim);
         setClass(note.abselem.elemset, klass, "", color);
@@ -166,6 +166,7 @@ export function Exercise({
         var note = abcelem;
         var noteElems = note.abselem.elemset[0];
 
+/*
     // Create the bar element
     const bar = document.createElement("div");
     bar.classList.add("bar");
@@ -184,7 +185,7 @@ export function Exercise({
     coverBox.style.top = noteElems.getBoundingClientRect().top - 10 + "px";
     coverBox.style.left = noteElems.getBoundingClientRect().left + "px";
     coverBox.style.width = noteElems.nextSibling.getBoundingClientRect().left - noteElems.getBoundingClientRect().left + "px";
-    coverBox.style.height = noteElems.getBoundingClientRect().height + "px";
+    coverBox.style.height = noteElems.getBoundingClientRect().height*2 + "px";
     coverBox.style.backgroundColor = "blue";
     coverBox.style.opacity = "0";
     coverBox.style.pointerEvents = "none";
@@ -210,6 +211,7 @@ export function Exercise({
             coverBox.style.opacity = "0";
         }
     });
+    
         // Append the bar and coverBox to the appropriate parent element
         const parentElement = document.getElementById("target" + exIndex);
         if (parentElement) {
@@ -219,7 +221,7 @@ export function Exercise({
         
             document.body.appendChild(bar);
             document.body.appendChild(coverBox);
-
+*/
         // selected notes handling
         if(teacherMode){
             if(!selNotes.includes(note)) {
@@ -798,7 +800,7 @@ export function Exercise({
                 </div> : <></>}
 
                 {/* note info blurb in case teachers want to see which staff/measure the note is on (and can't/don't want to count i guess) */}
-                {lastClicked !== undefined && Number(lastClicked.abselem.elemset[0].getAttribute("selectedTimes")) % 3 !== 0 ? <div style={{marginLeft: "1vw"}}>Note Info: {ana}</div> : <div/>}
+                {lastClicked !== undefined && Number(lastClicked.abselem.elemset[0].getAttribute("selectedTimes")) % 4 !== 0 ? <div style={{marginLeft: "1vw"}}>Note Info: {ana}</div> : <div/>}
                 <br/>
                 <Button variant='success' onClick={save}>Save Exercise</Button>
                 <Button onClick={() => handleExerciseDelete(exIndex)} style={{ marginLeft: "10px", marginTop: "10px" }} variant="danger">Delete Exercise</Button>
