@@ -165,6 +165,61 @@ export function Exercise({
     const clickListener = function (abcelem:any, tuneNumber: number, classes:string, analysis:abcjs.ClickListenerAnalysis, drag:abcjs.ClickListenerDrag){
         var note = abcelem;
         var noteElems = note.abselem.elemset[0];
+
+    // Create the bar element
+    const bar = document.createElement("div");
+    bar.classList.add("bar");
+    bar.style.position = "absolute";
+    bar.style.top = noteElems.getBoundingClientRect().top - 10 + "px";
+    bar.style.left = noteElems.getBoundingClientRect().left + "px";
+    bar.style.width = noteElems.nextSibling.getBoundingClientRect().left - noteElems.getBoundingClientRect().left + "px";
+    bar.style.height = "5px";
+    bar.style.backgroundColor = "blue";
+    bar.style.opacity = "0";
+
+    // Create the cover box element
+    const coverBox = document.createElement("div");
+    coverBox.classList.add("cover-box");
+    coverBox.style.position = "absolute";
+    coverBox.style.top = noteElems.getBoundingClientRect().top - 10 + "px";
+    coverBox.style.left = noteElems.getBoundingClientRect().left + "px";
+    coverBox.style.width = noteElems.nextSibling.getBoundingClientRect().left - noteElems.getBoundingClientRect().left + "px";
+    coverBox.style.height = noteElems.getBoundingClientRect().height + "px";
+    coverBox.style.backgroundColor = "blue";
+    coverBox.style.opacity = "0";
+    coverBox.style.pointerEvents = "none";
+
+    bar.addEventListener('mouseenter', () => {
+        if (bar.style.opacity === "0") { 
+            bar.style.opacity = "0.5"; 
+        }
+    });
+
+    bar.addEventListener('mouseleave', () => {
+        if (bar.style.opacity !== "1") {
+            bar.style.opacity = "0";
+        }
+    });
+    
+    bar.addEventListener('click', () => {
+        if (bar.style.opacity === "0.5") {
+            bar.style.opacity = "1";
+            coverBox.style.opacity = "0.5";
+        } else if (bar.style.opacity === "1") {
+            bar.style.opacity = "0"; 
+            coverBox.style.opacity = "0";
+        }
+    });
+        // Append the bar and coverBox to the appropriate parent element
+        const parentElement = document.getElementById("target" + exIndex);
+        if (parentElement) {
+            parentElement.appendChild(bar);
+            parentElement.appendChild(coverBox);
+        }
+        
+            document.body.appendChild(bar);
+            document.body.appendChild(coverBox);
+
         // selected notes handling
         if(teacherMode){
             if(!selNotes.includes(note)) {
